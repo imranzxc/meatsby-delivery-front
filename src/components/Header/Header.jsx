@@ -1,30 +1,31 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 
-import { Container } from "reactstrap";
-import logo from "../../assets/images/res-logo.png";
-import { NavLink, Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Container } from 'reactstrap';
+import logo from '../../assets/images/res-logo.png';
+import { NavLink, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { HiLogout } from 'react-icons/hi';
 
-import { cartUiActions } from "../../store/shopping-cart/cartUiSlice";
+import { cartUiActions } from '../../store/shopping-cart/cartUiSlice';
 
-import "../../styles/header.css";
+import '../../styles/header.css';
 
 const nav__links = [
   {
-    display: "Home",
-    path: "/home",
+    display: 'Home',
+    path: '/home',
   },
   {
-    display: "Foods",
-    path: "/foods",
+    display: 'Foods',
+    path: '/foods',
   },
   {
-    display: "Cart",
-    path: "/cart",
+    display: 'Cart',
+    path: '/cart',
   },
   {
-    display: "Contact",
-    path: "/contact",
+    display: 'Contact',
+    path: '/contact',
   },
 ];
 
@@ -34,25 +35,28 @@ const Header = () => {
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
   const dispatch = useDispatch();
 
-  const toggleMenu = () => menuRef.current.classList.toggle("show__menu");
+  const token = useSelector((state) => state.auth.token);
+
+  const toggleMenu = () => menuRef.current.classList.toggle('show__menu');
 
   const toggleCart = () => {
     dispatch(cartUiActions.toggle());
   };
 
+  const tokenRemoval = () => {
+    window.localStorage.clear();
+  };
+
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
-      ) {
-        headerRef.current.classList.add("header__shrink");
+    window.addEventListener('scroll', () => {
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+        headerRef.current.classList.add('header__shrink');
       } else {
-        headerRef.current.classList.remove("header__shrink");
+        headerRef.current.classList.remove('header__shrink');
       }
     });
 
-    return () => window.removeEventListener("scroll");
+    return () => window.removeEventListener('scroll');
   }, []);
 
   return (
@@ -71,10 +75,7 @@ const Header = () => {
                 <NavLink
                   to={item.path}
                   key={index}
-                  className={(navClass) =>
-                    navClass.isActive ? "active__menu" : ""
-                  }
-                >
+                  className={(navClass) => (navClass.isActive ? 'active__menu' : '')}>
                   {item.display}
                 </NavLink>
               ))}
@@ -84,18 +85,30 @@ const Header = () => {
           {/* ======== nav right icons ========= */}
           <div className="nav__right d-flex align-items-center gap-4">
             <span className="cart__icon" onClick={toggleCart}>
-              <i class="ri-shopping-basket-line"></i>
+              <i className="ri-shopping-basket-line"></i>
               <span className="cart__badge">{totalQuantity}</span>
             </span>
 
             <span className="user">
               <Link to="/login">
-                <i class="ri-user-line"></i>
+                <i className="ri-user-line"></i>
+              </Link>
+            </span>
+
+            <span>
+              <Link to="/login">
+                {token ? (
+                  <div onClick={tokenRemoval} className="logout">
+                    <HiLogout />
+                  </div>
+                ) : (
+                  ''
+                )}
               </Link>
             </span>
 
             <span className="mobile__menu" onClick={toggleMenu}>
-              <i class="ri-menu-line"></i>
+              <i className="ri-menu-line"></i>
             </span>
           </div>
         </div>

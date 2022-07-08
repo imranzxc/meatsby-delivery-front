@@ -1,17 +1,47 @@
-import React, { useRef } from "react";
-import Helmet from "../components/Helmet/Helmet";
-import CommonSection from "../components/UI/common-section/CommonSection";
-import { Container, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import React, { useRef } from 'react';
+import Helmet from '../components/Helmet/Helmet';
+import CommonSection from '../components/UI/common-section/CommonSection';
+import { Container, Row, Col } from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { createUser } from '../store/shopping-cart/authSlice';
 
 const Register = () => {
-  const signupNameRef = useRef();
-  const signupPasswordRef = useRef();
-  const signupEmailRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleChangeFirstName = (e) => {
+    setFirstname(e.target.value);
+  };
+
+  const handleChangeLastName = (e) => {
+    setLastname(e.target.value);
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
+
+  const handleRegistration = () => {
+    dispatch(createUser({ email, password, firstname, lastname }));
+  };
+
+  const signingUp = useSelector((state) => state.auth.signingUp);
+  const error = useSelector((state) => state.auth.error);
 
   return (
     <Helmet title="Signup">
@@ -21,12 +51,24 @@ const Register = () => {
           <Row>
             <Col lg="6" md="6" sm="12" className="m-auto text-center">
               <form className="form mb-5" onSubmit={submitHandler}>
+                {error}
+                {signingUp && <div>You are registered</div>}
                 <div className="form__group">
                   <input
                     type="text"
-                    placeholder="Full name"
+                    placeholder="First name"
                     required
-                    ref={signupNameRef}
+                    onChange={handleChangeFirstName}
+                    value={firstname}
+                  />
+                </div>
+                <div className="form__group">
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    required
+                    onChange={handleChangeLastName}
+                    value={lastname}
                   />
                 </div>
                 <div className="form__group">
@@ -34,7 +76,8 @@ const Register = () => {
                     type="email"
                     placeholder="Email"
                     required
-                    ref={signupEmailRef}
+                    onChange={handleChangeEmail}
+                    value={email}
                   />
                 </div>
                 <div className="form__group">
@@ -42,10 +85,11 @@ const Register = () => {
                     type="password"
                     placeholder="Password"
                     required
-                    ref={signupPasswordRef}
+                    onChange={handleChangePassword}
+                    value={password}
                   />
                 </div>
-                <button type="submit" className="addTOCart__btn">
+                <button type="submit" className="addTOCart__btn" onClick={handleRegistration}>
                   Sign Up
                 </button>
               </form>

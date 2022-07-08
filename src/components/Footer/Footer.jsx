@@ -1,10 +1,10 @@
-import React from "react";
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
-import logo from "../../assets/images/res-logo.png";
+import React from 'react';
+import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
+import logo from '../../assets/images/res-logo.png';
 
-import "../../styles/footer.css";
+import '../../styles/footer.css';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -16,8 +16,7 @@ const Footer = () => {
               <img src={logo} alt="logo" />
               <h5>Meatsby</h5>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Nesciunt pariatur accusamus
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt pariatur accusamus
               </p>
             </div>
           </Col>
@@ -59,7 +58,7 @@ const Footer = () => {
             <div className="newsletter">
               <input type="email" placeholder="Enter your email" />
               <span>
-                <i class="ri-send-plane-line"></i>
+                <i className="ri-send-plane-line"></i>
               </span>
             </div>
           </Col>
@@ -68,38 +67,37 @@ const Footer = () => {
         <Row className="mt-5">
           <Col lg="6" md="6">
             <p className="copyright__text">
-              Copyright - 2022, website made by Imran Bursagov. All Rights
-              Reserved.
+              Copyright - 2022, website made by Imran Bursagov. All Rights Reserved.
             </p>
           </Col>
           <Col lg="6" md="6">
             <div className="social__links d-flex align-items-center gap-4 justify-content-end">
               <p className="m-0">Follow: </p>
               <span>
-                {" "}
+                {' '}
                 <Link to="instagram.com/imranzxc">
-                  <i class="ri-facebook-line"></i>
-                </Link>{" "}
+                  <i className="ri-facebook-line"></i>
+                </Link>{' '}
               </span>
 
               <span>
                 <Link to="https://github.com/imranzxc">
-                  <i class="ri-github-line"></i>
+                  <i className="ri-github-line"></i>
                 </Link>
               </span>
 
               <span>
-                {" "}
+                {' '}
                 <Link to="https://www.youtube.com/channel/UCU_CzyUGuug2b169NOzaRZA">
-                  <i class="ri-youtube-line"></i>
-                </Link>{" "}
+                  <i className="ri-youtube-line"></i>
+                </Link>{' '}
               </span>
 
               <span>
-                {" "}
+                {' '}
                 <Link to="instagram.com/imranzxc">
-                  <i class="ri-linkedin-line"></i>
-                </Link>{" "}
+                  <i className="ri-linkedin-line"></i>
+                </Link>{' '}
               </span>
             </div>
           </Col>
