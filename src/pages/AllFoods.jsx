@@ -10,11 +10,20 @@ import ReactPaginate from "react-paginate";
 
 import "../styles/all-foods.css";
 import "../styles/pagination.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getProduct } from "../store/shopping-cart/productSlice";
 
 const AllFoods = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [pageNumber, setPageNumber] = useState(0);
+
+  const dispatch = useDispatch();
+
+  const prods = useSelector((state) => state.product.products)
+  
+
+useEffect(() => dispatch(getProduct()), [dispatch])
 
   const searchedProduct = products.filter((item) => {
     if (searchTerm.value === "") {
@@ -72,7 +81,7 @@ const AllFoods = () => {
               </div>
             </Col>
 
-            {displayPage.map((item) => (
+            {prods.map((item) => (
               <Col lg="3" md="4" sm="6" xs="6" key={item.id} className="mb-4">
                 <ProductCard item={item} />
               </Col>

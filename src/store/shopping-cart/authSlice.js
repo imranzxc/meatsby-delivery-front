@@ -19,7 +19,7 @@ export const createUser = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ firstname, lastname, email, password}),
+        body: JSON.stringify({ firstname, lastname, email, password }),
       });
       const data = await res.json();
       if (data.error) {
@@ -57,14 +57,20 @@ export const doLogin = createAsyncThunk('auth/doLogin', async (payload, thunkAPI
   }
 });
 
+export const logOut = createAsyncThunk('auth/logOut', async (req, res) => {
+  localStorage.removeItem('token');
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(logOut.fulfilled, (state, action) => {
+        state.token = null;
+      })
+
       .addCase(createUser.pending, (state, action) => {
         state.signingUp = true;
       })

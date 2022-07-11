@@ -9,6 +9,7 @@ import { HiLogout } from 'react-icons/hi';
 import { cartUiActions } from '../../store/shopping-cart/cartUiSlice';
 
 import '../../styles/header.css';
+import { logOut } from '../../store/shopping-cart/authSlice';
 
 const nav__links = [
   {
@@ -44,7 +45,7 @@ const Header = () => {
   };
 
   const tokenRemoval = () => {
-    window.localStorage.clear();
+    dispatch(logOut());
   };
 
   useEffect(() => {

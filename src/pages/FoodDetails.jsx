@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import products from "../assets/fake-data/products";
-import { useParams } from "react-router-dom";
-import Helmet from "../components/Helmet/Helmet";
-import CommonSection from "../components/UI/common-section/CommonSection";
-import { Container, Row, Col } from "reactstrap";
+//import products from '../assets/fake-data/products';
+import { useParams } from 'react-router-dom';
+import Helmet from '../components/Helmet/Helmet';
+import CommonSection from '../components/UI/common-section/CommonSection';
+import { Container, Row, Col } from 'reactstrap';
 
-import { useDispatch } from "react-redux";
-import { cartActions } from "../store/shopping-cart/cartSlice";
+import { useDispatch } from 'react-redux';
+import { cartActions } from '../store/shopping-cart/cartSlice';
 
-import "../styles/product-details.css";
+import '../styles/product-details.css';
 
-import ProductCard from "../components/UI/product-card/ProductCard";
+import ProductCard from '../components/UI/product-card/ProductCard';
+import { getProduct } from '../store/shopping-cart/productSlice';
+import { useSelector } from 'react-redux';
 
 const FoodDetails = () => {
-  const [tab, setTab] = useState("desc");
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [reviewMsg, setReviewMsg] = useState("");
+  const [tab, setTab] = useState('desc');
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [reviewMsg, setReviewMsg] = useState('');
+
+  const products = useSelector((state) => state.product.products);
+
   const { id } = useParams();
+
   const dispatch = useDispatch();
 
-  const product = products.find((product) => product.id === id);
-  const [previewImg, setPreviewImg] = useState(product.image01);
+  const product = products.filter((product) => Number(product.id) === Number(id));
+  const [previewImg, setPreviewImg] = useState(`http://localhost:4200/${product.image01}`);
   const { title, price, category, desc, image01 } = product;
+  console.log(products);
 
   const relatedProduct = products.filter((item) => category === item.category);
 
@@ -34,7 +41,7 @@ const FoodDetails = () => {
         title,
         price,
         image01,
-      })
+      }),
     );
   };
 
@@ -46,7 +53,8 @@ const FoodDetails = () => {
 
   useEffect(() => {
     setPreviewImg(product.image01);
-  }, [product]);
+    dispatch(getProduct());
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,24 +69,15 @@ const FoodDetails = () => {
           <Row>
             <Col lg="2" md="2">
               <div className="product__images ">
-                <div
-                  className="img__item mb-3"
-                  onClick={() => setPreviewImg(product.image01)}
-                >
-                  <img src={product.image01} alt="" className="w-50" />
+                <div className="img__item mb-3" onClick={() => setPreviewImg(product.image01)}>
+                  <img src={`http://localhost:4200/${product.image01}`} alt="" className="w-50" />
                 </div>
-                <div
-                  className="img__item mb-3"
-                  onClick={() => setPreviewImg(product.image02)}
-                >
-                  <img src={product.image02} alt="" className="w-50" />
+                <div className="img__item mb-3" onClick={() => setPreviewImg(product.image02)}>
+                  <img src={`http://localhost:4200/${product.image02}`} alt="" className="w-50" />
                 </div>
 
-                <div
-                  className="img__item"
-                  onClick={() => setPreviewImg(product.image03)}
-                >
-                  <img src={product.image03} alt="" className="w-50" />
+                <div className="img__item" onClick={() => setPreviewImg(product.image03)}>
+                  <img src={`http://localhost:4200/${product.image03}`} alt="" className="w-50" />
                 </div>
               </div>
             </Col>
@@ -93,7 +92,7 @@ const FoodDetails = () => {
               <div className="single__product-content">
                 <h2 className="product__title mb-3">{title}</h2>
                 <p className="product__price">
-                  {" "}
+                  {' '}
                   Price: <span>${price}</span>
                 </p>
                 <p className="category mb-5">
@@ -109,20 +108,18 @@ const FoodDetails = () => {
             <Col lg="12">
               <div className="tabs d-flex align-items-center gap-5 py-3">
                 <h6
-                  className={` ${tab === "desc" ? "tab__active" : ""}`}
-                  onClick={() => setTab("desc")}
-                >
+                  className={` ${tab === 'desc' ? 'tab__active' : ''}`}
+                  onClick={() => setTab('desc')}>
                   Description
                 </h6>
                 <h6
-                  className={` ${tab === "rev" ? "tab__active" : ""}`}
-                  onClick={() => setTab("rev")}
-                >
+                  className={` ${tab === 'rev' ? 'tab__active' : ''}`}
+                  onClick={() => setTab('rev')}>
                   Review
                 </h6>
               </div>
 
-              {tab === "desc" ? (
+              {tab === 'desc' ? (
                 <div className="tab__content">
                   <p>{desc}</p>
                 </div>
