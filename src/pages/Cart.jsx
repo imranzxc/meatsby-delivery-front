@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+
+
+  console.log(cartItems)
   return (
     <Helmet title="Cart">
       <CommonSection title="Your Cart" />
@@ -72,7 +75,7 @@ const Tr = (props) => {
   return (
     <tr>
       <td className="text-center cart__img-box">
-        <img src={image01} alt="" />
+        <img src={`http://localhost:4200/${image01}`} alt="" />
       </td>
       <td className="text-center">{title}</td>
       <td className="text-center">${price}</td>
