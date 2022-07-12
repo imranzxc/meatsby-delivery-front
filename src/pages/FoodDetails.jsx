@@ -22,19 +22,25 @@ const FoodDetails = () => {
   const [reviewMsg, setReviewMsg] = useState('');
 
   const products = useSelector((state) => state.product.products);
+  const [prod, setProd] = useState(products)
+
+  const loading = useSelector((state) => state.product.loading);
+
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
-  const product = products.filter((product) => Number(product.id) === Number(id));
-  const [previewImg, setPreviewImg] = useState(`http://localhost:4200/${product.image01}`);
-  const { title, price, category, desc, image01 } = product;
-  console.log(products);
+  const product = prod.filter((product) => Number(product.id) === Number(id));
 
-  const relatedProduct = products.filter((item) => category === item.category);
+  const [previewImg, setPreviewImg] = useState(product.image01);
 
-  const addItem = () => {
+  const relatedProduct = prod.filter((item) => item.category === item.category);
+
+  const addItem = ( id,
+    title,
+    price,
+    image01,) => {
     dispatch(
       cartActions.addItem({
         id,
@@ -51,6 +57,7 @@ const FoodDetails = () => {
     console.log(enteredName, enteredEmail, reviewMsg);
   };
 
+
   useEffect(() => {
     setPreviewImg(product.image01);
     dispatch(getProduct());
@@ -60,43 +67,54 @@ const FoodDetails = () => {
     window.scrollTo(0, 0);
   }, [product]);
 
+  if (loading) {
+    return <div>loading</div>
+  }
+
   return (
     <Helmet title="Product-details">
-      <CommonSection title={title} />
+      <CommonSection title={product.title} />
+
 
       <section>
+      {products.map(item => {
+        console.log(item)
+        if (Number(item.id) === Number(id)) {
+         // setPreviewImg(item.image01)
+          return (
+           
         <Container>
           <Row>
             <Col lg="2" md="2">
               <div className="product__images ">
-                <div className="img__item mb-3" onClick={() => setPreviewImg(product.image01)}>
-                  <img src={`http://localhost:4200/${product.image01}`} alt="" className="w-50" />
+                <div className="img__item mb-3" onClick={() => setPreviewImg(item.image01)}>
+                  <img src={`http://localhost:4200/${item.image01}`} alt="" className="w-50" />
                 </div>
-                <div className="img__item mb-3" onClick={() => setPreviewImg(product.image02)}>
-                  <img src={`http://localhost:4200/${product.image02}`} alt="" className="w-50" />
+                <div className="img__item mb-3" onClick={() => setPreviewImg(item.image02)}>
+                  <img src={`http://localhost:4200/${item.image02}`} alt="" className="w-50" />
                 </div>
 
-                <div className="img__item" onClick={() => setPreviewImg(product.image03)}>
-                  <img src={`http://localhost:4200/${product.image03}`} alt="" className="w-50" />
+                <div className="img__item" onClick={() => setPreviewImg(item.image03)}>
+                  <img src={`http://localhost:4200/${item.image03}`} alt="" className="w-50" />
                 </div>
               </div>
             </Col>
 
             <Col lg="4" md="4">
               <div className="product__main-img">
-                <img src={previewImg} alt="" className="w-100" />
+                <img src={`http://localhost:4200/${previewImg || item.image01}`} alt="" className="w-100" />
               </div>
             </Col>
 
             <Col lg="6" md="6">
               <div className="single__product-content">
-                <h2 className="product__title mb-3">{title}</h2>
+                <h2 className="product__title mb-3">{item.title}</h2>
                 <p className="product__price">
                   {' '}
-                  Price: <span>${price}</span>
+                  Price: <span>${item.price}</span>
                 </p>
                 <p className="category mb-5">
-                  Category: <span>{category}</span>
+                  Category: <span>{item.category}</span>
                 </p>
 
                 <button onClick={addItem} className="addTOCart__btn">
@@ -121,7 +139,7 @@ const FoodDetails = () => {
 
               {tab === 'desc' ? (
                 <div className="tab__content">
-                  <p>{desc}</p>
+                  <p>{item.desc}</p>
                 </div>
               ) : (
                 <div className="tab__form mb-3">
@@ -190,6 +208,11 @@ const FoodDetails = () => {
             ))}
           </Row>
         </Container>
+          )
+        }
+      })}
+
+
       </section>
     </Helmet>
   );

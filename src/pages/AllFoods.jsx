@@ -21,6 +21,8 @@ const AllFoods = () => {
   const dispatch = useDispatch();
 
   const prods = useSelector((state) => state.product.products)
+
+  console.log(prods)
   
 
 useEffect(() => dispatch(getProduct()), [dispatch])
