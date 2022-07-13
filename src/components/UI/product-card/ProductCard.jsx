@@ -11,6 +11,8 @@ const ProductCard = (props) => {
   const { id, title, image01, price } = props.item;
   const dispatch = useDispatch();
 
+  console.log('ITEM', props)
+
   const addToCart = () => {
     dispatch(
       cartActions.addItem({

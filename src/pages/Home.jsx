@@ -16,7 +16,6 @@ import featureImg01 from "../assets/images/service-01.png";
 import featureImg02 from "../assets/images/service-02.png";
 import featureImg03 from "../assets/images/service-03.png";
 
-import products from "../assets/fake-data/products.js";
 
 import foodCategoryImg01 from "../assets/images/hamburger.png";
 import foodCategoryImg02 from "../assets/images/pizza.png";
@@ -29,6 +28,12 @@ import whyImg from "../assets/images/location.png";
 import networkImg from "../assets/images/network.png";
 
 import TestimonialSlider from "../components/UI/slider/TestimonialSlider.jsx";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getProduct } from "../store/shopping-cart/productSlice.js";
+
+
+
 
 const featureData = [
   {
@@ -50,15 +55,22 @@ const featureData = [
 ];
 
 const Home = () => {
+  const dispatch = useDispatch()
+  const products = useSelector((state) => state.product.products)
+
+
+
   const [category, setCategory] = useState("ALL");
   const [allProducts, setAllProducts] = useState(products);
 
   const [hotPizza, setHotPizza] = useState([]);
 
   useEffect(() => {
+    
     const filteredPizza = products.filter((item) => item.category === "Pizza");
     const slicePizza = filteredPizza.slice(0, 4);
     setHotPizza(slicePizza);
+    dispatch(getProduct())
   }, []);
 
   useEffect(() => {
@@ -90,6 +102,8 @@ const Home = () => {
       setAllProducts(filteredProducts);
     }
   }, [category]);
+
+  console.log(allProducts)
 
   return (
     <Helmet title="Home">

@@ -1,49 +1,44 @@
-import React, { useState } from "react";
-import Helmet from "../components/Helmet/Helmet";
-import CommonSection from "../components/UI/common-section/CommonSection";
+import React, { useState } from 'react';
+import Helmet from '../components/Helmet/Helmet';
+import CommonSection from '../components/UI/common-section/CommonSection';
 
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from 'reactstrap';
 
-import products from "../assets/fake-data/products";
-import ProductCard from "../components/UI/product-card/ProductCard";
-import ReactPaginate from "react-paginate";
+import ProductCard from '../components/UI/product-card/ProductCard';
+import ReactPaginate from 'react-paginate';
 
-import "../styles/all-foods.css";
-import "../styles/pagination.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getProduct } from "../store/shopping-cart/productSlice";
+import '../styles/all-foods.css';
+import '../styles/pagination.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getProduct } from '../store/shopping-cart/productSlice';
 
 const AllFoods = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [pageNumber, setPageNumber] = useState(0);
 
   const dispatch = useDispatch();
 
-  const prods = useSelector((state) => state.product.products)
+  const prods = useSelector((state) => state.product.products);
 
-  console.log(prods)
-  
+  useEffect(() => dispatch(getProduct()), [dispatch]);
 
-useEffect(() => dispatch(getProduct()), [dispatch])
-
-  const searchedProduct = products.filter((item) => {
-    if (searchTerm.value === "") {
+  const searchedProduct = prods.filter((item) => {
+    if (searchTerm.value === '') {
       return item;
     }
     if (item.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+      console.log(item)
       return item;
     } else {
-      return console.log("not found");
+      return console.log('not found');
     }
   });
 
+  console.log(searchedProduct + 'EEEEEEEEEE')
   const productPerPage = 12;
   const visitedPage = pageNumber * productPerPage;
-  const displayPage = searchedProduct.slice(
-    visitedPage,
-    visitedPage + productPerPage
-  );
+  const displayPage = searchedProduct.slice(visitedPage, visitedPage + productPerPage);
 
   const pageCount = Math.ceil(searchedProduct.length / productPerPage);
 
@@ -93,8 +88,8 @@ useEffect(() => dispatch(getProduct()), [dispatch])
               <ReactPaginate
                 pageCount={pageCount}
                 onPageChange={changePage}
-                previousLabel={"Prev"}
-                nextLabel={"Next"}
+                previousLabel={'Prev'}
+                nextLabel={'Next'}
                 containerClassName=" paginationBttns "
               />
             </div>

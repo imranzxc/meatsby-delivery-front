@@ -10,6 +10,7 @@ import { cartUiActions } from "../../../store/shopping-cart/cartUiSlice";
 import "../../../styles/shopping-cart.css";
 
 const Carts = () => {
+  const token = useSelector((state) => state.auth.token)
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -40,7 +41,7 @@ const Carts = () => {
           <h6>
             Subtotal : <span>${totalAmount}</span>
           </h6>
-          <button>
+          <button disabled={!token}>
             <Link to="/checkout" onClick={toggleCart}>
               Checkout
             </Link>
