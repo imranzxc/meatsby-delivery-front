@@ -117,7 +117,7 @@ const FoodDetails = () => {
                   Category: <span>{item.category}</span>
                 </p>
 
-                <button onClick={addItem} className="addTOCart__btn">
+                <button onClick={() => addItem(item.id, item.title, item.price, item.image01)} className="addTOCart__btn">
                   Add to Cart
                 </button>
               </div>
