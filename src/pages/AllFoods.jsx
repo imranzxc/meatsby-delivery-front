@@ -35,7 +35,7 @@ const AllFoods = () => {
     }
   });
 
-  console.log(searchedProduct + 'EEEEEEEEEE')
+  console.log(searchedProduct)
   const productPerPage = 12;
   const visitedPage = pageNumber * productPerPage;
   const displayPage = searchedProduct.slice(visitedPage, visitedPage + productPerPage);
@@ -78,7 +78,7 @@ const AllFoods = () => {
               </div>
             </Col>
 
-            {prods.map((item) => (
+            {displayPage.map((item) => (
               <Col lg="3" md="4" sm="6" xs="6" key={item.id} className="mb-4">
                 <ProductCard item={item} />
               </Col>

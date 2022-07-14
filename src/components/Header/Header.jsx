@@ -28,6 +28,10 @@ const nav__links = [
     display: 'Contact',
     path: '/contact',
   },
+  {
+    display: 'Constructor',
+    path: '/constructor',
+  },
 ];
 
 const Header = () => {
